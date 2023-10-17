@@ -218,7 +218,9 @@ class CustomerGraph:
 
 
 ########################################################################
-
+Add_Supplier = Stack(20)
+New_order = Queue(20)
+product = linked_list()
 #inventory management Code
 print("Welcome User enter your serial number to access the required service")
 print("1. Supplier Management System")
@@ -227,70 +229,70 @@ print("3. Product Management")
 print("4. Inventory Tracking")
 print("5. Customer Database")
 option = int(input(" -> "))
-def switch(option):
+while True:
 
     if option == 1:
         
         #Supplier Management System
 
-        Add_Supplier = stack(20)
+        
         print("User you have entered in Supplier Management System choose below serial number to perform required function")
         print("1. Add new supplier")
         print("2. Update existing data")
         print("3. Remove supplier")
         print("4. List of all Supplier")
         option_stack = int(input("Enter Your Input Serial Number"))
-        def switch_1(option_stack):
-            if option_stack == 1:
+        
+        if option_stack == 1:
                 #i/o logic most probably if statement condition 1 (add new)
                 Supplier_Name = input("Enter Your supplier Name")
                 Add_Supplier.push(Supplier_Name)
                 print("New Supplier Added successfully")
-            elif option_stack==2:
+        elif option_stack==2:
 
                 #i/o logic most probably elif statement condition 2(update existing)
                 Supplier_Name_new = input("Enter update of supplier name")
                 Supplier_Name_old = input("Enter supplier old name")
                 Add_Supplier.update(Supplier_Name_new, Supplier_Name_old)
                 print("Supplier data has been updated Successfully")
-            elif option_stack==3:
+        elif option_stack==3:
 
                 #i/o logic for removing recent supplier condition 3 (remove)
                 Add_Supplier.pop()
                 print("Latest SUpplier has been removed")
-            elif option_stack==4:
+        elif option_stack==4:
 
                 #i/o logic for displaying all supplier name condition 4 (display)
                 Add_Supplier.display()
-            else:
+        else:
                 #exception handling
                 print("PLease enter valid input")
 
     elif option==2:
         #order processing system
 
-        New_order = queue(20)
+        
         print("User you have entered in Order Management System choose below serial number to perform required function")
         print("1. To put up a Order")
         print("2. To remove a Order")
         print("3. To view all Orders")
         option_queue = int(input("Enter Your Input Serial Number"))
-        def switch_2(option_queue):
-            if option_queue==1:
+        
+        if option_queue==1:
                 #putting up a order i/o logic
                 order_data = input("Enter Your order")
                 New_order.enqueue(order_data)
                 print("Your order is succcessfully placed")
-            elif option_queue==2:
+        elif option_queue==2:
 
                 #to dequeue order i/o logic
                 New_order.dequeue()
                 print("Your first order is processed and and out for delivery")
-            elif option_queue==3:
+        elif option_queue==3:
 
                     # to display all order i/o logic
                     New_order.display()
-            else:
+        else:
 
                 #exception handling
                 print("PLease enter valid input")
@@ -298,33 +300,33 @@ def switch(option):
     elif option==3:
         #Product management
 
-        product = linked_list()
+       
         print("User you have entered in Product Management System choose below serial number to perform required function")
         print("1. To Add new Product")
         print("2. To update product Name")
         print("3 To delete any Product")
         option_dll = int(input("Enter Your Input Serial Number"))
-        def switch_3(option_dll):
-            if option_dll==1:
+       
+        if option_dll==1:
 
                 #add new product i/o logic
                 name = input("Enter name of product")
                 price = input("Enter price of product")
                 product.add(name,price)
                 print("Product details are successfully  added")
-            elif option_dll==2:
+        elif option_dll==2:
 
                 # update the product name
                 old_name = input("Enter name of old product")
                 new_name = input("Enter name of new product")
                 product.update(old_name,new_name)
                 print("Product details are successfully updated")
-            elif option_dll==3:
+        elif option_dll==3:
 
                 #delete product detail
                 position = input("Enter serial number of product")
                 product.delete(position)
-            else:
+        else:
                 #exception handling
                 print("PLease enter valid input")
 
@@ -335,8 +337,8 @@ def switch(option):
          print("2. To find find product")
          print("3. To view full inventory")
          option_bst = int(input("Enter your serial number"))
-         def switch_4(option_bst):
-            if option_bst==1:
+         
+         if option_bst==1:
 
                 #logic to trigger bst
                 sku = input("Enter SKU number")
@@ -346,27 +348,15 @@ def switch(option):
                 print("Process Successfully Added")
                 #after that this logic for insertion
                 Sku_inventory.insert(sku,product_data)
-            elif option_bst==2:
+         elif option_bst==2:
                 
                 #find product using sku
                 sku_search = input("Enter SKU number")
                 Sku_inventory.search(sku_search)
-            elif option_bst==3:
+         elif option_bst==3:
                 
                 #inorder display
                 Sku_inventory.inorder()
-            else:
+         else:
                         #exception handling
                 print("PLease enter valid input")
-
-
-
-
-
-     
-
-
-
-
-
-
