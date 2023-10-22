@@ -1,3 +1,7 @@
+import pymongo
+
+client = pymongo.MongoClient('mongodb://localhost:27017/')
+
 #data structures
 
 class Stack:
@@ -11,12 +15,12 @@ class Stack:
             return True
         return False
 
-    def push(self, data):
+    def push(self, data, category):
         if self.isfull():
             print("Currently Supplier List is Full")
         else:
             self.top += 1
-            self.elements[self.top] = data
+            self.elements[self.top] = {'data': data, 'category': category}
 
     def isempty(self):
         if self.top == -1:
@@ -50,14 +54,14 @@ class Queue:
     def isfull(self):
         return (self.rear + 1) % self.size == self.front
 
-    def enqueue(self, data):
+    def enqueue(self, data,type):
         if self.isfull():
             print("Customers Order Queue is Completed")
         else:
             if self.front == -1:
                 self.front = 0
             self.rear = (self.rear + 1) % self.size
-            self.elements[self.rear] = data
+            self.elements[self.rear] = {'data': data, 'type':type}
 
     def isempty(self):
         return self.front == -1
@@ -216,11 +220,24 @@ class CustomerGraph:
         return influential_customers
 
 
+#######################################################################
+#database connection
+db = client['Inventory_Management']
+suppliers_collection = db['Supplier']
+order_collection = db['Order']
+Product_Management_collection = db['Product_management']
+Inventory_Tracking_collection = db['Inventory_tracking']
+Customer_Data_collection = db['Customer_data']
 
 ########################################################################
 Add_Supplier = Stack(20)
 New_order = Queue(20)
 product = linked_list()
+def can_process_order(order_type):
+    
+    matching_suppliers = suppliers_collection.count_documents({'category': order_type})    
+    return matching_suppliers > 0
+
 #inventory management Code
 print("Welcome User enter your serial number to access the required service")
 print("1. Supplier Management System")
@@ -245,9 +262,12 @@ while True:
         
         if option_stack == 1:
                 #i/o logic most probably if statement condition 1 (add new)
-                Supplier_Name = input("Enter Your supplier Name")
-                Add_Supplier.push(Supplier_Name)
+                Supplier_Name = input("Enter Your supplier Name and category: ")
+                supplier_data, supplier_category = Supplier_Name.split()
+                Add_Supplier.push(supplier_data, supplier_category)
+
                 print("New Supplier Added successfully")
+                suppliers_collection.insert_one({'data': supplier_data, 'category': supplier_category})
         elif option_stack==2:
 
                 #i/o logic most probably elif statement condition 2(update existing)
@@ -280,9 +300,14 @@ while True:
         
         if option_queue==1:
                 #putting up a order i/o logic
-                order_data = input("Enter Your order")
-                New_order.enqueue(order_data)
-                print("Your order is succcessfully placed")
+                order_data = input("Enter Your order and type: ")
+                order_data, order_type = order_data.split()
+                if can_process_order(order_type): 
+                    New_order.enqueue(order_data, order_type)
+                    print("Your order is successfully placed")
+                    order_collection.insert_one({'data': order_data, 'type': order_type})
+                else:
+                    print("Sorry, the order can't be processed")
         elif option_queue==2:
 
                 #to dequeue order i/o logic
